@@ -3,7 +3,7 @@ import unittest
 from textnode import TextNode, TextType
 from helpers import *
 
-class TestTextNode(unittest.TestCase):
+class TestHelpers(unittest.TestCase):
     def test_converts_normal_text_node_to_leaf_node(self):
         text_node = TextNode("test", TextType.NORMAL)
 
