@@ -126,6 +126,28 @@ class TestHelpers(unittest.TestCase):
             ],
             new_nodes,
         )
+    
+    def test_extracts_markdown_images(self):
+        text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+        tuples = extract_markdown_images(text)
+        self.assertListEqual(
+            [
+                ("rick roll", "https://i.imgur.com/aKaOqIh.gif"), 
+                ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg"),
+            ],
+            tuples,
+        )
+
+    def test_extracts_markdown_images(self):
+        text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+        tuples = extract_markdown_links(text)
+        self.assertListEqual(
+            [
+                ("to boot dev", "https://www.boot.dev"),
+                ("to youtube", "https://www.youtube.com/@bootdotdev"),
+            ],
+            tuples,
+        )
 
 
 if __name__ == "__main__":
