@@ -1,5 +1,11 @@
-from textnode import TextType
+from textnode import TextNode, TextType
 from leafnode import LeafNode
+
+delimiters = {
+    "*": TextType.ITALIC,
+    "**": TextType.BOLD,
+    "`": TextType.CODE,
+}
 
 
 def text_node_to_html_node(text_node):
@@ -20,4 +26,20 @@ def text_node_to_html_node(text_node):
             return LeafNode("img", text_node.text, props=props)
         
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
-    pass
+    new_nodes = []
+
+    for node in old_nodes:
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+        else:
+            values = node.text.split(delimiter)
+            for i in range(len(values)):
+                if values[i] == "":
+                    continue
+
+                if i % 2 == 0:
+                    new_nodes.append(TextNode(values[i], TextType.NORMAL))
+                else:
+                    new_nodes.append(TextNode(values[i], delimiters[delimiter]))
+
+    return new_nodes
