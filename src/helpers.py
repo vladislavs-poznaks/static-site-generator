@@ -94,3 +94,10 @@ def text_to_text_nodes(text):
     node = TextNode(text, TextType.NORMAL)
 
     return split_nodes_delimiter(split_nodes_delimiter(split_nodes_delimiter(split_nodes_link(split_nodes_image([node])), "**", TextType.BOLD), "*", TextType.ITALIC), "`", TextType.CODE)
+
+def markdown_to_blocks(text):
+    sections = text.strip("\n").strip().split("\n\n")
+
+    return list(map(lambda x: re.sub(r" {2,}", "", x.strip()), sections))
+
+

@@ -203,6 +203,28 @@ class TestHelpers(unittest.TestCase):
             nodes,
         )
 
+    def test_splits_text_into_blocks(self):
+        text = """
+        # This is a heading
+
+        This is a paragraph of text. It has some **bold** and *italic* words inside of it.
+
+        * This is the first list item in a list block
+        * This is a list item
+        * This is another list item
+        """
+
+        blocks = markdown_to_blocks(text)
+
+        self.assertListEqual(
+            [
+                "# This is a heading",
+                "This is a paragraph of text. It has some **bold** and *italic* words inside of it.",
+                "* This is the first list item in a list block\n* This is a list item\n* This is another list item",
+            ],
+            blocks,
+        )
+
 
 
 if __name__ == "__main__":
