@@ -100,4 +100,33 @@ def markdown_to_blocks(text):
 
     return list(map(lambda x: re.sub(r" {2,}", "", x.strip()), sections))
 
+def block_to_block_type(block):
+    if re.fullmatch(r"^#{1,6} .+$", block):
+        return "heading"
+    
+    if re.fullmatch(r"^```[\s\S]*?```$", block):
+        return "code"
+    
+    lines = block.split("\n")
+    
+    if re.fullmatch(r"^(>.*(\n|$))+", block):
+        return "quote"
+    
+    if re.fullmatch(r"^([*-] .*(\n|$))+", block):
+        return "unordered_list"
+    
+    result = "ordered_list"
+    for i in range(len(lines)):
+        if re.fullmatch(r"^(\d+\. .*(\n|$))+", lines[i]) is None:
+            result = "paragraph"
+        
+        parts = lines[i].split(".")
+
+        if parts[0] != f"{i + 1}":
+            result = "paragraph"
+
+    return result
+    
+
+
 

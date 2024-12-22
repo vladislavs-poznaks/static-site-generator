@@ -225,7 +225,54 @@ class TestHelpers(unittest.TestCase):
             blocks,
         )
 
+    def test_classifies_heading_block_type(self):
+        block = "### Some heading"
 
+        type = block_to_block_type(block)
+
+        self.assertEqual("heading", type)
+
+    def test_classifies_code_block_type(self):
+        block = "```Some code```"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("code", type)
+
+    def test_classifies_code_block_type(self):
+        block = ">quote1\n>quote2"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("quote", type)
+
+    def test_classifies_unordered_list_with_asterisk_block_type(self):
+        block = "* item1\n* item2"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("unordered_list", type)
+
+    def test_classifies_unordered_list_with_dash_block_type(self):
+        block = "- item1\n- item2"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("unordered_list", type)
+
+    def test_classifies_ordered_list_block_type(self):
+        block = "1. item1\n2. item2"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("ordered_list", type)
+
+    def test_classifies_paragraph_if_ordered_list_has_inconsistent_numbering(self):
+        block = "1. item1\n3. item2"
+
+        type = block_to_block_type(block)
+
+        self.assertEqual("paragraph", type)
 
 if __name__ == "__main__":
     unittest.main()
